@@ -20,9 +20,9 @@
     imagesizes="100vw"
     fetchpriority="high"
   />
-  <link rel="stylesheet" href="css/style.css?v=3" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
   <!-- White theme; js/theme.js switches it on (light) and off (dark) -->
-  <link rel="stylesheet" href="css/theme-light.css?v=2" id="themeLight" />
+  <link rel="stylesheet" href="css/theme-light.css?v=3" id="themeLight" />
   <script src="js/theme.js?v=2"></script>
 </head>
 <body>
@@ -85,6 +85,33 @@
   </svg>
 
   <!-- Subtle desktop cursor follower -->
+  <!-- ===================================================================
+       LOADING SCREEN (pure CSS, fades out after 1s; the page loads underneath)
+  =================================================================== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <svg class="emblem loader__emblem"><use href="#emblem" /></svg>
+
+      <div class="loader__court">
+        <svg class="loader__floor" viewBox="0 0 240 120">
+          <rect class="loader__turf" x="4" y="4" width="232" height="112" rx="6" />
+          <rect class="loader__line" x="4" y="4" width="232" height="112" rx="6" pathLength="100" />
+          <line class="loader__line loader__line--net" x1="120" y1="4" x2="120" y2="116" pathLength="100" />
+          <line class="loader__line" x1="37" y1="4" x2="37" y2="116" pathLength="100" />
+          <line class="loader__line" x1="203" y1="4" x2="203" y2="116" pathLength="100" />
+          <line class="loader__line" x1="37" y1="60" x2="203" y2="60" pathLength="100" />
+        </svg>
+
+        <div class="loader__flight">
+          <span class="loader__shadow"></span>
+          <span class="loader__ball"></span>
+        </div>
+      </div>
+
+      <div class="loader__bar"><span></span></div>
+    </div>
+  </div>
+
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <div class="app" id="app">
@@ -327,6 +354,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=3"></script>
+  <script src="js/main.js?v=4"></script>
 </body>
 </html>

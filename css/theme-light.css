@@ -20,6 +20,12 @@ body {
   color: var(--ink);
 }
 
+/* --- Loading screen --- */
+
+.loader { background: var(--surface); }
+.loader__bar { background: var(--line); }
+.loader__shadow { background: rgba(11, 26, 51, 0.35); }
+
 /* --- Navbar --- */
 
 .nav__bar {

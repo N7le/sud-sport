@@ -189,6 +189,177 @@ img {
 }
 
 /* =====================================================================
+   LOADING SCREEN
+   Pure CSS: the court draws, a padel ball bounces across it, then the
+   whole screen fades out at 1s while the page keeps loading underneath.
+===================================================================== */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy-900);
+  animation: loaderOut 0.4s var(--ease) 1s forwards;
+}
+
+.loader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.loader__emblem {
+  width: 64px;
+  height: 64px;
+  animation: loaderPop 0.5s var(--ease) both;
+}
+
+.loader__court {
+  position: relative;
+  width: min(260px, 70vw);
+  aspect-ratio: 2 / 1;
+  perspective: 520px;
+}
+
+.loader__floor {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotateX(52deg);
+}
+
+.loader__turf {
+  fill: var(--royal);
+  opacity: 0;
+  animation: loaderFade 0.3s ease 0.05s forwards;
+}
+
+.loader__line {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.5;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: loaderDraw 0.45s var(--ease) 0.1s forwards;
+}
+
+.loader__line--net { stroke-width: 4; }
+
+/* Ball travels left to right over the net, bounces, then settles */
+.loader__flight {
+  position: absolute;
+  top: 50%;
+  left: 12%;
+  animation: loaderBallX 0.85s linear 0.1s both;
+}
+
+.loader__ball {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f4ff8a, #d4ec1e 55%, #9fb80a);
+  box-shadow: 0 0 12px rgba(212, 236, 30, 0.6);
+  overflow: hidden;
+  animation: loaderBallY 0.85s 0.1s both;
+}
+
+/* Seam */
+.loader__ball::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 6px;
+  right: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+}
+
+.loader__shadow {
+  position: absolute;
+  width: 16px;
+  height: 5px;
+  margin: -2px 0 0 -8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  filter: blur(1px);
+  animation: loaderShadow 0.85s 0.1s both;
+}
+
+.loader__bar {
+  width: 120px;
+  height: 3px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.loader__bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: loaderBar 0.95s linear forwards;
+}
+
+@keyframes loaderOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes loaderPop {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes loaderFade {
+  to { opacity: 1; }
+}
+
+@keyframes loaderDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes loaderBar {
+  to { transform: scaleX(1); }
+}
+
+@keyframes loaderBallX {
+  from { left: 12%; }
+  to { left: 84%; }
+}
+
+/* Rise (ease out) and fall (ease in) for a real bounce */
+@keyframes loaderBallY {
+  0% { transform: translateY(0) rotate(0deg); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+  35% { transform: translateY(-46px) rotate(220deg); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+  70% { transform: translateY(0) rotate(430deg); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+  85% { transform: translateY(-14px) rotate(500deg); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+  100% { transform: translateY(0) rotate(560deg); }
+}
+
+@keyframes loaderShadow {
+  0% { transform: scale(1); opacity: 0.6; animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+  35% { transform: scale(0.45); opacity: 0.2; animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+  70% { transform: scale(1); opacity: 0.6; animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+  85% { transform: scale(0.75); opacity: 0.4; animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader__flight,
+  .loader__ball,
+  .loader__shadow { animation: none; }
+  .loader__flight { left: 50%; }
+}
+
+/* =====================================================================
    CURSOR FOLLOWER
 ===================================================================== */
 

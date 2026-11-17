@@ -526,6 +526,12 @@ function bindEvents() {
 // =====================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+  // The loading screen fades itself out in CSS; drop it from the page afterwards
+  const loader = $('loader');
+  loader.addEventListener('animationend', (e) => {
+    if (e.target === loader && e.animationName === 'loaderOut') loader.remove();
+  });
+
   buildReelNav();
   setHero(0);
   startHeroTimer();
