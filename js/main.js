@@ -258,15 +258,24 @@ function setHero(idx) {
   });
 }
 
-// Once the page has loaded, fetch the other slides so they are ready before they show
-function preloadHeroSlides() {
-  HERO_REEL.forEach((hero) => {
-    const img = imageSet(hero.image, 'hero');
-    const pre = new Image();
-    pre.sizes = HERO_SIZES;
-    pre.srcset = img.srcset;
-    pre.src = img.src;
+// Resolves when the image has finished (or failed) loading
+function loadImage(set, sizes) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = img.onerror = resolve;
+    img.sizes = sizes;
+    img.srcset = set.srcset;
+    img.src = set.src;
   });
+}
+
+// Load order: first hero photo, then the other three hero slides,
+// and only then the photo strip further down the page
+async function loadHeroSlidesThenStrip() {
+  const [first, ...rest] = HERO_REEL.map((hero) => imageSet(hero.image, 'hero'));
+  await loadImage(first, HERO_SIZES);
+  await Promise.all(rest.map((set) => loadImage(set, HERO_SIZES)));
+  releaseFilmstripImages();
 }
 
 function startHeroTimer() {
@@ -347,7 +356,7 @@ function buildFilmstrip() {
     const img = imageSet(item.img, 'film');
     return `
       <div class="film">
-        <img src="${img.src}" srcset="${img.srcset}" sizes="${FILM_SIZES}"
+        <img data-src="${img.src}" data-srcset="${img.srcset}" sizes="${FILM_SIZES}"
           alt="${escapeHtml(item.title)}" class="film__img" loading="lazy" decoding="async" draggable="false" />
         <div class="film__overlay">
           <div>
@@ -358,6 +367,16 @@ function buildFilmstrip() {
         </div>
       </div>`;
   }).join('');
+}
+
+// Strip photos are held back (data-src) until the hero slides have loaded
+function releaseFilmstripImages() {
+  $('filmstrip').querySelectorAll('img[data-src]').forEach((img) => {
+    img.srcset = img.dataset.srcset;
+    img.src = img.dataset.src;
+    img.removeAttribute('data-src');
+    img.removeAttribute('data-srcset');
+  });
 }
 
 // Desktop: drag the strip with the mouse, or step through it with the arrows
@@ -510,7 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildReelNav();
   setHero(0);
   startHeroTimer();
-  window.addEventListener('load', preloadHeroSlides);
+  loadHeroSlidesThenStrip();
 
   buildZones();
   setActiveZone(0);
