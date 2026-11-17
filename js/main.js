@@ -12,8 +12,7 @@ const HERO_REEL = [
     headline: 'BLUE COURT PRECISION.',
     sub: 'Championship blue Mondo turf, frameless glass & floodlit night rallies in Sud Liban.',
     accent: '#3B93D4',
-    image:
-      'images/1554068865-24cecd4e34b8-2000.jpg'
+    image: 'hero-padel'
   },
   {
     id: '02',
@@ -23,8 +22,7 @@ const HERO_REEL = [
     headline: 'UNDER THE LIGHTS.',
     sub: 'High-density emerald FIFA turf for intense 5v5 and 6v6 night derbies.',
     accent: '#008B3A',
-    image:
-      'images/1529900748604-07564a03e7a6-2000.jpg'
+    image: 'hero-football'
   },
   {
     id: '03',
@@ -34,8 +32,7 @@ const HERO_REEL = [
     headline: 'NEXT-GEN SQUADS.',
     sub: '4K 120Hz OLED lounges, EA FC 26 showdowns & acoustically treated squad rooms.',
     accent: '#3B93D4',
-    image:
-      'images/1542751371-adc38448a05e-2000.jpg'
+    image: 'hero-gaming'
   },
   {
     id: '04',
@@ -44,8 +41,7 @@ const HERO_REEL = [
     headline: 'FUEL & ESPRESSO.',
     sub: 'Specialty iced lattes, protein recovery shakes & court-view social seating.',
     accent: '#008B3A',
-    image:
-      'images/1501339847302-ac426a4a7cbb-2000.jpg'
+    image: 'hero-cafe'
   }
 ];
 
@@ -59,8 +55,7 @@ const ZONES = [
     colorHex: '#3B93D4',
     borderColor: 'rgba(59, 147, 212, 0.5)',
     motif: 'PADEL',
-    image:
-      'images/1622279457486-62dcc4a431d6-1600.jpg',
+    image: 'zone-padel',
     rates: [
       { name: 'Padel Court — Off-Peak (08:00 – 17:00)', price: '$32', meta: '90 Mins • 4 Players ($8/player)' },
       { name: 'Padel Court — Prime Floodlit (17:00 – 02:00)', price: '$40', meta: '90 Mins • 4 Players ($10/player)' },
@@ -78,8 +73,7 @@ const ZONES = [
     colorHex: '#008B3A',
     borderColor: 'rgba(0, 139, 58, 0.6)',
     motif: 'FOOTBALL',
-    image:
-      'images/1574629810360-7efbbe195018-1600.jpg',
+    image: 'zone-football',
     rates: [
       { name: '5v5 Mini Football Pitch (Daytime)', price: '$50', meta: '90 Mins • Up to 10 Players' },
       { name: '5v5 / 6v6 Floodlit Night Match', price: '$65', meta: '90 Mins • Includes Bibs & Match Ball' },
@@ -97,8 +91,7 @@ const ZONES = [
     colorHex: '#3B93D4',
     borderColor: 'rgba(59, 147, 212, 0.5)',
     motif: 'GAMING',
-    image:
-      'images/1593305841991-05c297ba4575-1600.jpg',
+    image: 'zone-gaming',
     rates: [
       { name: '1v1 Dual PS5 Pro Station', price: '$6 / hr', meta: '4K 120Hz OLED Display • 2 Players' },
       { name: '2v2 Squad Lounge Booth (4 Players)', price: '$12 / hr', meta: 'EA FC 26, NBA 2K, Tekken 8, CoD' },
@@ -116,8 +109,7 @@ const ZONES = [
     borderColor: 'rgba(0, 139, 58, 0.6)',
     motif: 'CAFE',
     menuUrl: 'menu.html',
-    image:
-      'images/1554118811-1e0d58224f24-1600.jpg',
+    image: 'zone-cafe',
     rates: [
       { name: 'Double Espresso / Iced Spanish Latte', price: '$3.50', meta: '100% Arabica House Blend' },
       { name: 'Sud Sport Recovery Shake (30g Whey)', price: '$6.00', meta: 'Banana, Peanut Butter, Oats, Chocolate' },
@@ -132,31 +124,31 @@ const FILMSTRIP_MOMENTS = [
     title: 'Blue Center Court',
     tag: '01 • PADEL',
     accent: '#3B93D4',
-    img: 'images/1554068865-24cecd4e34b8-1200.jpg'
+    img: 'film-padel'
   },
   {
     title: 'Night Derby Turf',
     tag: '02 • MINI FOOTBALL',
     accent: '#008B3A',
-    img: 'images/1529900748604-07564a03e7a6-1200.jpg'
+    img: 'film-football'
   },
   {
     title: 'VIP PS5 Pro Booths',
     tag: '03 • GAMING LOUNGE',
     accent: '#3B93D4',
-    img: 'images/1542751371-adc38448a05e-1200.jpg'
+    img: 'film-gaming'
   },
   {
     title: 'Iced Latte & Recovery',
     tag: '04 • CAFÉTÉRIA',
     accent: '#008B3A',
-    img: 'images/1495474472287-4d71bcdd2085-1200.jpg'
+    img: 'film-latte'
   },
   {
     title: 'Post-Match Smoothies',
     tag: '04 • CAFÉTÉRIA',
     accent: '#008B3A',
-    img: 'images/1590301157890-4810ed352733-1200.jpg'
+    img: 'film-smoothies'
   }
 ];
 
@@ -182,6 +174,26 @@ const escapeHtml = (str) =>
   String(str).replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
   );
+
+// Photos live in images/ as <name>-<width>.webp in a few widths;
+// the browser downloads only the size the screen needs.
+const IMAGE_WIDTHS = {
+  hero: [960, 1280, 1920],
+  zone: [700, 1200],
+  film: [480, 800]
+};
+
+const HERO_SIZES = '100vw';
+const ZONE_SIZES = '(min-width: 1024px) 60vw, 100vw';
+const FILM_SIZES = '(min-width: 640px) 360px, 78vw';
+
+function imageSet(name, kind) {
+  const widths = IMAGE_WIDTHS[kind];
+  return {
+    src: `images/${name}-${widths[0]}.webp`,
+    srcset: widths.map((w) => `images/${name}-${w}.webp ${w}w`).join(', ')
+  };
+}
 
 // Re-trigger a CSS entrance animation on an element
 function replayAnimation(el, cls) {
@@ -221,8 +233,10 @@ function setHero(idx) {
   const hero = HERO_REEL[idx];
 
   // Ken Burns photography layer (fresh <img> restarts the animation)
+  const img = imageSet(hero.image, 'hero');
   $('heroMedia').innerHTML = `
-    <img src="${hero.image}" alt="${escapeHtml(hero.headline)}" class="hero__img" />
+    <img src="${img.src}" srcset="${img.srcset}" sizes="${HERO_SIZES}"
+      alt="${escapeHtml(hero.headline)}" class="hero__img" fetchpriority="high" decoding="async" />
     <div class="hero__shade"></div>
     <div class="hero__vignette"></div>`;
 
@@ -244,6 +258,17 @@ function setHero(idx) {
   });
 }
 
+// Once the page has loaded, fetch the other slides so they are ready before they show
+function preloadHeroSlides() {
+  HERO_REEL.forEach((hero) => {
+    const img = imageSet(hero.image, 'hero');
+    const pre = new Image();
+    pre.sizes = HERO_SIZES;
+    pre.srcset = img.srcset;
+    pre.src = img.src;
+  });
+}
+
 function startHeroTimer() {
   clearInterval(heroTimer);
   heroTimer = setInterval(() => {
@@ -259,10 +284,12 @@ function buildZones() {
   const list = $('zonesList');
 
   list.innerHTML = ZONES.map((zone, idx) => {
+    const img = imageSet(zone.image, 'zone');
     const btnText = zone.colorHex === '#008B3A' ? '#FFFFFF' : '#050C1A';
     return `
       <div class="zone" data-zone-index="${idx}" style="--zone-color: ${zone.colorHex}; --zone-border: ${zone.borderColor}">
-        <img src="${zone.image}" alt="${escapeHtml(zone.title)}" class="zone__img" />
+        <img src="${img.src}" srcset="${img.srcset}" sizes="${ZONE_SIZES}"
+          alt="${escapeHtml(zone.title)}" class="zone__img" loading="lazy" decoding="async" />
         <div class="zone__shade"></div>
         <div class="zone__ribbon"></div>
         ${zone.motif === 'GAMING' ? '<div class="zone__symbols">△ ○ ✕ □</div>' : ''}
@@ -316,10 +343,12 @@ function setActiveZone(idx) {
 // =====================================================================
 
 function buildFilmstrip() {
-  $('filmstrip').innerHTML = FILMSTRIP_MOMENTS.map(
-    (item) => `
+  $('filmstrip').innerHTML = FILMSTRIP_MOMENTS.map((item) => {
+    const img = imageSet(item.img, 'film');
+    return `
       <div class="film">
-        <img src="${item.img}" alt="${escapeHtml(item.title)}" class="film__img" draggable="false" />
+        <img src="${img.src}" srcset="${img.srcset}" sizes="${FILM_SIZES}"
+          alt="${escapeHtml(item.title)}" class="film__img" loading="lazy" decoding="async" draggable="false" />
         <div class="film__overlay">
           <div>
             <span class="film__tag" style="color: ${item.accent}">${escapeHtml(item.tag)}</span>
@@ -327,8 +356,8 @@ function buildFilmstrip() {
           </div>
           <span class="film__arrow">${icon('arrow-up-right')}</span>
         </div>
-      </div>`
-  ).join('');
+      </div>`;
+  }).join('');
 }
 
 // Desktop: drag the strip with the mouse, or step through it with the arrows
@@ -481,6 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildReelNav();
   setHero(0);
   startHeroTimer();
+  window.addEventListener('load', preloadHeroSlides);
 
   buildZones();
   setActiveZone(0);

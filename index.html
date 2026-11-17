@@ -11,6 +11,15 @@
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
   />
+  <!-- Start downloading the first hero photo before the script inserts it -->
+  <link
+    rel="preload"
+    as="image"
+    type="image/webp"
+    imagesrcset="images/hero-padel-960.webp 960w, images/hero-padel-1280.webp 1280w, images/hero-padel-1920.webp 1920w"
+    imagesizes="100vw"
+    fetchpriority="high"
+  />
   <link rel="stylesheet" href="css/style.css" />
   <!-- White theme; js/theme.js switches it on (light) and off (dark) -->
   <link rel="stylesheet" href="css/theme-light.css" id="themeLight" />
