@@ -695,8 +695,11 @@ img {
 
 .hero {
   position: relative;
+  /* svh = visible height with the browser's toolbars showing, so a bottom
+     toolbar (Firefox, Safari) never covers the slide switcher */
   height: 100vh;
-  min-height: 650px;
+  height: 100svh;
+  min-height: 540px;
   max-height: 1000px;
   width: 100%;
   overflow: hidden;
@@ -910,6 +913,7 @@ img {
 .reel-btn.is-active .reel-btn__fill { width: 100%; }
 
 @media (min-width: 640px) {
+  .hero { min-height: 650px; }
   .hero__watermark { display: block; right: 56px; top: 128px; }
   .hero__inner { padding: 0 32px 56px; }
   .hero__content { gap: 20px; }
