@@ -1,0 +1,193 @@
+/* =====================================================================
+   SUD SPORT — WHITE THEME
+   Loaded last on every page and overrides the navy theme.
+   js/theme.js enables this file for light mode and disables it for
+   dark mode (the sun/moon toggle in the navbar).
+   Photo areas (heroes, zone cards, photo strip) intentionally stay dark.
+===================================================================== */
+
+:root {
+  --ink: #0b1a33;
+  --ink-80: rgba(11, 26, 51, 0.8);
+  --muted: rgba(11, 26, 51, 0.58);
+  --line: rgba(11, 26, 51, 0.1);
+  --surface: #ffffff;
+  --surface-2: #f3f6fa;
+}
+
+body {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* --- Navbar --- */
+
+.nav__bar {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: var(--line);
+  box-shadow: 0 12px 32px rgba(11, 26, 51, 0.14);
+}
+
+.brand__word { color: var(--ink); }
+.brand__sub { color: var(--muted); }
+
+.theme-toggle {
+  background: var(--surface-2);
+  border-color: var(--line);
+  color: var(--ink);
+}
+.theme-toggle:hover { background: #e8edf4; }
+
+.btn-back {
+  background: var(--surface-2);
+  border-color: var(--line);
+  color: var(--ink-80);
+}
+.btn-back:hover { background: #e8edf4; }
+
+/* --- Section headings --- */
+
+.section-title { color: var(--ink); }
+
+/* --- Photo strip section --- */
+
+.inside {
+  background: var(--surface-2);
+  border-top-color: var(--line);
+}
+
+.strip-head__title { color: var(--ink-80); }
+.strip-head__hint { color: var(--muted); }
+
+.strip-nav__btn {
+  background: var(--surface);
+  border-color: rgba(11, 26, 51, 0.15);
+  color: var(--ink);
+}
+
+/* --- Rates --- */
+
+.rates__card {
+  background: var(--surface);
+  border-color: rgba(59, 147, 212, 0.3);
+  box-shadow: 0 20px 50px rgba(11, 26, 51, 0.08);
+}
+
+.rates__head { border-bottom-color: var(--line); }
+.rates__title { color: var(--ink); }
+
+.rate-tabs {
+  background: var(--surface-2);
+  border-color: var(--line);
+}
+.rate-tab { color: var(--muted); }
+.rate-tab:hover { color: var(--ink); }
+.rate-tab.is-active { color: #fff; box-shadow: none; }
+
+.rate-row + .rate-row { border-top-color: var(--line); }
+.rate-row__name { color: var(--ink); }
+.rate-row__meta { color: var(--muted); }
+.rate-row__price { color: var(--royal); }
+.rate-row:hover .rate-row__name { color: var(--royal); }
+
+.rates__menu-link { color: var(--ink); }
+.rates__menu-link .icon { color: var(--green); }
+.rates__foot { color: var(--muted); }
+
+/* --- Shared buttons outside photo areas --- */
+
+.btn--outline {
+  border-color: rgba(11, 26, 51, 0.18);
+  color: var(--ink-80);
+}
+.btn--outline:hover {
+  border-color: rgba(11, 26, 51, 0.4);
+  background: var(--surface-2);
+}
+
+/* --- Footer --- */
+
+.footer {
+  background: var(--surface-2);
+  border-top-color: var(--line);
+}
+
+.footer__word { color: var(--ink); }
+.footer__pillars { color: var(--ink-80); }
+.footer__liban { color: var(--muted); }
+
+.footer__bottom {
+  border-top-color: var(--line);
+  color: var(--muted);
+}
+
+/* --- Full-screen menu --- */
+
+.menu { background: rgba(255, 255, 255, 0.97); }
+
+.menu__close {
+  border-color: rgba(11, 26, 51, 0.18);
+  color: var(--ink);
+}
+
+.menu-item { border-bottom-color: var(--line); }
+.menu-item__label { color: var(--ink); }
+.menu-item__sub { color: var(--muted); }
+.menu-item:last-child .menu-item__num { color: var(--ink); }
+.menu__foot { color: var(--muted); }
+
+/* =====================================================================
+   CAFÉTÉRIA MENU PAGE
+===================================================================== */
+
+.cat-bar {
+  background: rgba(255, 255, 255, 0.94);
+  border-top-color: var(--line);
+  border-bottom-color: var(--line);
+}
+
+.cat-search {
+  background: var(--surface-2);
+  border-color: var(--line);
+  color: var(--muted);
+}
+.cat-search input { color: var(--ink); }
+.cat-search input::placeholder { color: var(--muted); }
+.cat-search__clear {
+  background: rgba(11, 26, 51, 0.08);
+  color: var(--ink);
+}
+
+.cat-chip {
+  border-color: var(--line);
+  color: var(--muted);
+}
+.cat-chip:hover {
+  color: var(--ink);
+  border-color: rgba(11, 26, 51, 0.25);
+}
+.cat-chip.is-active { color: #fff; }
+
+.menu-legend__note { color: var(--muted); }
+
+.tag--popular { color: var(--royal); background: rgba(59, 147, 212, 0.1); }
+.tag--protein { color: #b45309; border-color: rgba(217, 119, 6, 0.4); background: rgba(251, 191, 36, 0.12); }
+.tag--veg { color: #047857; background: rgba(0, 139, 58, 0.08); }
+
+.menu-cat__title { color: var(--ink); }
+.menu-cat__note { color: var(--muted); }
+
+.menu-item-row { border-bottom-color: var(--line); }
+.menu-item-row__name { color: var(--ink); }
+.menu-item-row__leader { border-bottom-color: rgba(11, 26, 51, 0.22); }
+.menu-item-row__price { color: var(--green); }
+.menu-item-row__desc { color: var(--muted); }
+
+.menu-empty { color: var(--muted); }
+
+.order-card {
+  background: var(--surface-2);
+  border-color: rgba(0, 139, 58, 0.35);
+}
+.order-card__title { color: var(--ink); }
+.order-card__text { color: var(--muted); }

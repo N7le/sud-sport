@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cafétéria Menu — SUD SPORT</title>
+  <meta name="description" content="SUD SPORT Cafétéria menu: coffee, iced drinks, shakes, juices, paninis, snacks, crêpes and shisha." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/menu.css" />
+  <!-- White theme; js/theme.js switches it on (light) and off (dark) -->
+  <link rel="stylesheet" href="css/theme-light.css" id="themeLight" />
+  <script src="js/theme.js"></script>
+</head>
+<body>
+  <!-- ===================================================================
+       SVG SPRITE: SUD SPORT CREST + ICONS
+  =================================================================== -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+    <symbol id="emblem" viewBox="0 0 220 220" fill="none">
+      <path d="M36 68 C36 48, 92 14, 110 14 C128 14, 184 48, 184 76 L184 96 C150 76, 86 64, 36 44 Z" fill="#3B93D4" />
+      <path d="M54 53 C72 40, 102 26, 110 26 C122 26, 174 54, 174 74 L174 88 C142 70, 92 60, 54 53 Z" fill="#0E2954" />
+      <path d="M98 30 L128 43 L128 73 L98 64 Z" fill="#1768AC" />
+      <path d="M74 57 L96 44 L96 63 Z" fill="#1768AC" />
+      <line x1="97" y1="29" x2="97" y2="65" stroke="#FFFFFF" stroke-width="3.5" />
+      <line x1="129" y1="42" x2="129" y2="74" stroke="#FFFFFF" stroke-width="3.5" />
+      <line x1="72" y1="57" x2="97" y2="43" stroke="#FFFFFF" stroke-width="3.2" />
+      <circle cx="141" cy="59" r="3.4" fill="#FFFFFF" />
+      <circle cx="151" cy="63" r="3.4" fill="#FFFFFF" />
+      <circle cx="161" cy="67" r="3.4" fill="#FFFFFF" />
+      <circle cx="141" cy="69" r="3.4" fill="#FFFFFF" />
+      <circle cx="151" cy="73" r="3.4" fill="#FFFFFF" />
+      <circle cx="161" cy="77" r="3.4" fill="#FFFFFF" />
+      <path d="M28 56 C28 42, 42 46, 62 54 C110 70, 162 78, 190 98 C196 104, 196 146, 182 166 C176 146, 152 132, 108 118 C64 104, 34 94, 28 78 Z" fill="#008B3A" />
+      <path d="M36 58 C84 74, 144 86, 184 106 L184 152 C144 130, 84 116, 36 96 Z" stroke="#FFFFFF" stroke-width="3.5" fill="none" />
+      <line x1="110" y1="78" x2="110" y2="125" stroke="#FFFFFF" stroke-width="3.5" />
+      <circle cx="110" cy="101.5" r="16" stroke="#FFFFFF" stroke-width="3.5" fill="none" />
+      <circle cx="110" cy="101.5" r="4" fill="#FFFFFF" />
+      <path d="M36 66 L58 74 L58 98 L36 90" stroke="#FFFFFF" stroke-width="3.2" fill="none" />
+      <path d="M58 79 A9 9 0 0 1 58 93" stroke="#FFFFFF" stroke-width="3.2" fill="none" />
+      <path d="M184 114 L162 106 L162 132 L184 142" stroke="#FFFFFF" stroke-width="3.2" fill="none" />
+      <path d="M162 112 A9 9 0 0 0 162 126" stroke="#FFFFFF" stroke-width="3.2" fill="none" />
+      <path d="M28 96 C46 112, 92 124, 146 142 C172 152, 180 166, 166 180 C150 194, 122 206, 110 206 C94 206, 40 182, 30 162 C26 150, 28 114, 28 96 Z" fill="#0E2954" />
+      <polygon points="58,128 46,148 68,153" stroke="#FFFFFF" stroke-width="3.8" fill="none" stroke-linejoin="round" />
+      <circle cx="86" cy="149" r="11" stroke="#FFFFFF" stroke-width="3.8" fill="none" />
+      <g stroke="#FFFFFF" stroke-width="3.8" stroke-linecap="round">
+        <line x1="108" y1="147" x2="126" y2="167" />
+        <line x1="126" y1="149" x2="108" y2="165" />
+      </g>
+      <rect x="138" y="156" width="20" height="20" transform="rotate(14 148 166)" stroke="#FFFFFF" stroke-width="3.8" fill="none" stroke-linejoin="round" />
+      <path d="M36 164 C62 180, 98 192, 134 198" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" fill="none" />
+    </symbol>
+
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol>
+  </svg>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- ===================================================================
+       NAVBAR
+  =================================================================== -->
+  <header class="nav">
+    <div class="nav__bar">
+      <a href="index.html" class="brand">
+        <svg class="emblem brand__emblem" role="img" aria-label="SUD SPORT Official Crest"><use href="#emblem" /></svg>
+        <div class="brand__text">
+          <div class="brand__word">
+            <span>SUD</span>
+            <span class="text-blue">SPORT</span>
+          </div>
+          <span class="brand__sub">SUD LIBAN</span>
+        </div>
+      </a>
+
+      <div class="nav__controls">
+        <button type="button" class="theme-toggle" aria-label="Switch theme">
+          <svg class="icon theme-toggle__moon"><use href="#i-moon" /></svg>
+          <svg class="icon theme-toggle__sun"><use href="#i-sun" /></svg>
+        </button>
+
+        <a href="index.html" class="btn-back" aria-label="Back to the club">
+          <svg class="icon"><use href="#i-arrow-left" /></svg>
+          <span>Club</span>
+        </a>
+        <button type="button" class="btn-book btn-book--green">Order</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================
+       MENU HERO
+  =================================================================== -->
+  <section class="menu-hero">
+    <img src="images/1554118811-1e0d58224f24-1600.jpg" alt="SUD SPORT Cafétéria" class="menu-hero__img" />
+    <div class="menu-hero__shade"></div>
+
+    <div class="menu-hero__inner animate-fade-up">
+      <div class="eyebrow">
+        <span class="eyebrow__line bg-green"></span>
+        <span class="eyebrow__text text-green">04 • CAFÉTÉRIA</span>
+        <span class="eyebrow__line bg-green"></span>
+      </div>
+      <h1 class="menu-hero__title">The Menu</h1>
+      <p class="menu-hero__sub">
+        Specialty coffee, post-match shakes &amp; warm paninis — served at the counter, courtside or straight to your gaming booth.
+      </p>
+      <div class="menu-hero__facts">
+        <span class="fact">
+          <svg class="icon icon--sm text-green"><use href="#i-clock" /></svg>
+          Open 08:00 – 02:00
+        </span>
+        <span class="fact">Courtside &amp; Booth Delivery</span>
+        <span class="fact">Terrace Seating</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       STICKY CATEGORY BAR
+  =================================================================== -->
+  <div class="cat-bar" id="catBar">
+    <div class="cat-bar__inner">
+      <label class="cat-search">
+        <svg class="icon icon--sm"><use href="#i-search" /></svg>
+        <input type="search" id="menuSearch" placeholder="Search the menu" autocomplete="off" />
+        <button type="button" class="cat-search__clear" id="searchClear" aria-label="Clear search" hidden>
+          <svg class="icon icon--xs"><use href="#i-x" /></svg>
+        </button>
+      </label>
+      <nav class="cat-chips" id="catChips" aria-label="Menu categories"></nav>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MENU CATEGORIES
+  =================================================================== -->
+  <main class="menu-main">
+    <div class="menu-legend">
+      <span class="tag tag--popular">Popular</span>
+      <span class="tag tag--protein">High Protein</span>
+      <span class="tag tag--veg">Vegetarian</span>
+      <span class="menu-legend__note">All prices in USD</span>
+    </div>
+
+    <div id="menuSections"></div>
+
+    <p class="menu-empty" id="menuEmpty" hidden>Nothing on the menu matches your search.</p>
+
+    <div class="order-card">
+      <div>
+        <span class="rates__eyebrow">ORDER AHEAD • PICK UP OR DELIVERED TO YOUR COURT</span>
+        <h3 class="order-card__title">Hungry after the match?</h3>
+        <p class="order-card__text">Send your order on WhatsApp and tell us your court or booth number.</p>
+      </div>
+      <div class="order-card__actions">
+        <button type="button" class="btn btn--green btn--lg">
+          <svg class="icon"><use href="#i-message" /></svg>
+          <span>Order on WhatsApp</span>
+        </button>
+        <a href="tel:+96170492810" class="btn btn--outline btn--lg">
+          <svg class="icon icon--sm text-blue"><use href="#i-phone" /></svg>
+          <span>Call</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer footer--compact">
+    <div class="footer__bottom">
+      <span>SUD SPORT COMPLEX • SOUTH LEBANON (SUD LIBAN)</span>
+      <a href="index.html" class="footer__link">← Back to the club</a>
+    </div>
+  </footer>
+
+  <script src="js/menu.js"></script>
+</body>
+</html>

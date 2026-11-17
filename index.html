@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SUD SPORT — Sud Liban</title>
+  <meta name="description" content="SUD SPORT, Sud Liban: Padel, Mini Football, Gaming Lounge & Cafétéria." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- White theme; js/theme.js switches it on (light) and off (dark) -->
+  <link rel="stylesheet" href="css/theme-light.css" id="themeLight" />
+  <script src="js/theme.js"></script>
+</head>
+<body>
+  <!-- ===================================================================
+       SVG SPRITE: SUD SPORT CREST + ICONS
+  =================================================================== -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+    <!-- CUSTOM RECREATED SUD SPORT HEXAGONAL 3-RIBBON CREST -->
+    <symbol id="emblem" viewBox="0 0 220 220" fill="none">
+      <!-- TOP RIBBON: PADEL COURT & RACKET PERFORATIONS -->
+      <path d="M36 68 C36 48, 92 14, 110 14 C128 14, 184 48, 184 76 L184 96 C150 76, 86 64, 36 44 Z" fill="#3B93D4" />
+      <path d="M54 53 C72 40, 102 26, 110 26 C122 26, 174 54, 174 74 L174 88 C142 70, 92 60, 54 53 Z" fill="#0E2954" />
+      <!-- Padel Court Royal Blue Zone & White Lines -->
+      <path d="M98 30 L128 43 L128 73 L98 64 Z" fill="#1768AC" />
+      <path d="M74 57 L96 44 L96 63 Z" fill="#1768AC" />
+      <line x1="97" y1="29" x2="97" y2="65" stroke="#FFFFFF" stroke-width="3.5" />
+      <line x1="129" y1="42" x2="129" y2="74" stroke="#FFFFFF" stroke-width="3.5" />
+      <line x1="72" y1="57" x2="97" y2="43" stroke="#FFFFFF" stroke-width="3.2" />
+      <!-- Padel Racket Dots -->
+      <circle cx="141" cy="59" r="3.4" fill="#FFFFFF" />
+      <circle cx="151" cy="63" r="3.4" fill="#FFFFFF" />
+      <circle cx="161" cy="67" r="3.4" fill="#FFFFFF" />
+      <circle cx="141" cy="69" r="3.4" fill="#FFFFFF" />
+      <circle cx="151" cy="73" r="3.4" fill="#FFFFFF" />
+      <circle cx="161" cy="77" r="3.4" fill="#FFFFFF" />
+
+      <!-- MIDDLE RIBBON: MINI FOOTBALL PITCH -->
+      <path d="M28 56 C28 42, 42 46, 62 54 C110 70, 162 78, 190 98 C196 104, 196 146, 182 166 C176 146, 152 132, 108 118 C64 104, 34 94, 28 78 Z" fill="#008B3A" />
+      <path d="M36 58 C84 74, 144 86, 184 106 L184 152 C144 130, 84 116, 36 96 Z" stroke="#FFFFFF" stroke-width="3.5" fill="none" />
+      <line x1="110" y1="78" x2="110" y2="125" stroke="#FFFFFF" stroke-width="3.5" />
+      <circle cx="110" cy="101.5" r="16" stroke="#FFFFFF" stroke-width="3.5" fill="none" />
+      <circle cx="110" cy="101.5" r="4" fill="#FFFFFF" />
+      <path d="M36 66 L58 74 L58 98 L36 90" stroke="#FFFFFF" stroke-width="3.2" fill="none" />
+      <path d="M58 79 A9 9 0 0 1 58 93" stroke="#FFFFFF" stroke-width="3.2" fill="none" />
+      <path d="M184 114 L162 106 L162 132 L184 142" stroke="#FFFFFF" stroke-width="3.2" fill="none" />
+      <path d="M162 112 A9 9 0 0 0 162 126" stroke="#FFFFFF" stroke-width="3.2" fill="none" />
+
+      <!-- BOTTOM RIBBON: GAMING LOUNGE WITH △ ○ ✕ □ -->
+      <path d="M28 96 C46 112, 92 124, 146 142 C172 152, 180 166, 166 180 C150 194, 122 206, 110 206 C94 206, 40 182, 30 162 C26 150, 28 114, 28 96 Z" fill="#0E2954" />
+      <polygon points="58,128 46,148 68,153" stroke="#FFFFFF" stroke-width="3.8" fill="none" stroke-linejoin="round" />
+      <circle cx="86" cy="149" r="11" stroke="#FFFFFF" stroke-width="3.8" fill="none" />
+      <g stroke="#FFFFFF" stroke-width="3.8" stroke-linecap="round">
+        <line x1="108" y1="147" x2="126" y2="167" />
+        <line x1="126" y1="149" x2="108" y2="165" />
+      </g>
+      <rect x="138" y="156" width="20" height="20" transform="rotate(14 148 166)" stroke="#FFFFFF" stroke-width="3.8" fill="none" stroke-linejoin="round" />
+      <path d="M36 164 C62 180, 98 192, 134 198" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" fill="none" />
+    </symbol>
+
+    <!-- Icons (Lucide) -->
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol>
+    <symbol id="i-navigation" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11" /></symbol>
+  </svg>
+
+  <!-- Subtle desktop cursor follower -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <div class="app" id="app">
+    <!-- ===================================================================
+         FLOATING SMOKED-GLASS NAVBAR
+    =================================================================== -->
+    <header class="nav">
+      <div class="nav__bar">
+        <a href="#top" class="brand">
+          <svg class="emblem brand__emblem" role="img" aria-label="SUD SPORT Official Crest"><use href="#emblem" /></svg>
+          <div class="brand__text">
+            <div class="brand__word">
+              <span>SUD</span>
+              <span class="text-blue">SPORT</span>
+            </div>
+            <span class="brand__sub">SUD LIBAN</span>
+          </div>
+        </a>
+
+        <div class="nav__controls">
+          <button type="button" class="theme-toggle" aria-label="Switch theme">
+            <svg class="icon theme-toggle__moon"><use href="#i-moon" /></svg>
+            <svg class="icon theme-toggle__sun"><use href="#i-sun" /></svg>
+          </button>
+
+          <button class="btn-book">Book Now</button>
+
+          <button class="btn-menu" id="menuOpenBtn" aria-label="Open Menu">
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================================================================
+         SECTION 1: KEN BURNS HERO REEL
+    =================================================================== -->
+    <section id="top" class="hero">
+      <div class="hero__media" id="heroMedia"></div>
+      <div class="hero__watermark" id="heroWatermark"></div>
+
+      <div class="hero__inner">
+        <div class="hero__content" id="heroContent">
+          <div class="pill">
+            <span class="pill__dot" id="heroDot"></span>
+            <span class="pill__id" id="heroId"></span>
+            <span id="heroLabel"></span>
+          </div>
+
+          <h1 class="hero__title" id="heroTitle"></h1>
+          <p class="hero__sub" id="heroSub"></p>
+
+          <div class="hero__ctas">
+            <button class="btn btn--primary btn--lg btn--glow hero__cta" id="heroCta">
+              <svg class="icon"><use href="#i-message" /></svg>
+              <span>Book on WhatsApp</span>
+              <svg class="icon hero__cta-arrow"><use href="#i-arrow-up-right" /></svg>
+            </button>
+            <a href="#zones" class="btn btn--ghost btn--lg">Explore 4 Zones</a>
+          </div>
+        </div>
+
+        <div class="hero__bar">
+          <div class="reel-nav" id="reelNav"></div>
+
+          <div class="tagline">
+            <span>PADEL</span>
+            <span class="text-blue">•</span>
+            <span>MINI FOOTBALL</span>
+            <span class="text-green">•</span>
+            <span>GAMING LOUNGE</span>
+            <span class="text-blue">•</span>
+            <span>CAFÉTÉRIA</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SECTION 2: THE FOUR ZONES ACCORDION
+    =================================================================== -->
+    <section id="zones" class="zones-section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">
+            <span class="eyebrow__line bg-blue"></span>
+            <span class="eyebrow__text">SUD LIBAN DESTINATION</span>
+            <span class="eyebrow__line bg-green"></span>
+          </div>
+          <h2 class="section-title">Four Zones. One Club.</h2>
+        </div>
+      </div>
+
+      <div class="zones" id="zonesList"></div>
+    </section>
+
+    <!-- ===================================================================
+         SECTION 3: FILMSTRIP & RATE SHEET
+    =================================================================== -->
+    <section class="inside">
+      <div class="strip-head">
+        <div class="strip-head__title">
+          <span class="dot bg-blue"></span>
+          <span>INSIDE SUD SPORT</span>
+        </div>
+        <span class="strip-head__hint">SWIPE REEL →</span>
+        <div class="strip-nav">
+          <button type="button" class="strip-nav__btn" id="stripPrev" aria-label="Previous photos">
+            <svg class="icon"><use href="#i-chevron-left" /></svg>
+          </button>
+          <button type="button" class="strip-nav__btn" id="stripNext" aria-label="Next photos">
+            <svg class="icon"><use href="#i-chevron-right" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="filmstrip" id="filmstrip"></div>
+
+      <div id="rates" class="rates">
+        <div class="rates__card">
+          <div class="rates__head">
+            <div>
+              <span class="rates__eyebrow">OFFICIAL CLUB TARIFFS • PAY ON ARRIVAL</span>
+              <h3 class="rates__title">Rates &amp; Cafétéria</h3>
+            </div>
+            <div class="rate-tabs" id="rateTabs"></div>
+          </div>
+
+          <div class="rate-list" id="rateList"></div>
+
+          <a href="menu.html" class="rates__menu-link" id="rateMenuLink" hidden>
+            <span>See the full Cafétéria menu</span>
+            <svg class="icon"><use href="#i-arrow-up-right" /></svg>
+          </a>
+
+          <div class="rates__foot">
+            <span>All Padel, Mini Football &amp; VIP Gaming slots are confirmed rapidly via WhatsApp or phone desk.</span>
+            <button class="btn btn--green" id="rateReserve">
+              <svg class="icon"><use href="#i-message" /></svg>
+              <span id="rateReserveLabel">Reserve PADEL</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SECTION 4: FOOTER
+    =================================================================== -->
+    <footer class="footer">
+      <div class="footer__top">
+        <div class="footer__lockup">
+          <svg class="emblem footer__emblem" role="img" aria-label="SUD SPORT Official Crest"><use href="#emblem" /></svg>
+          <div>
+            <div class="footer__word">
+              <span>SUD</span>
+              <span class="text-blue">SPORT</span>
+            </div>
+            <p class="footer__pillars">
+              PADEL <span class="text-blue">•</span> MINI FOOTBALL
+              <span class="text-green">•</span> GAMING LOUNGE
+              <span class="text-blue">•</span> CAFÉTÉRIA
+            </p>
+            <div class="footer__liban">
+              <span class="footer__line"></span>
+              <span>SUD LIBAN</span>
+              <span class="footer__line"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer__contacts">
+          <button class="btn btn--primary btn--lg">
+            <svg class="icon"><use href="#i-message" /></svg>
+            <span>WhatsApp Desk</span>
+          </button>
+          <a href="tel:+96170492810" class="btn btn--navy btn--lg">
+            <svg class="icon icon--sm text-blue"><use href="#i-phone" /></svg>
+            <span>Call Reception</span>
+          </a>
+          <a href="https://maps.google.com/?q=Sud+Liban" target="_blank" rel="noreferrer" class="btn btn--outline btn--lg">
+            <svg class="icon icon--sm text-green"><use href="#i-navigation" /></svg>
+            <span>Directions</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>SUD SPORT COMPLEX • SOUTH LEBANON (SUD LIBAN)</span>
+        <span>OPEN DAILY 08:00 AM – 02:00 AM • FREE PARKING</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- =====================================================================
+       FULL-SCREEN CURTAIN MENU
+  ===================================================================== -->
+  <div class="menu animate-fade-up" id="menu" hidden>
+    <div class="menu__top">
+      <div class="menu__brand">
+        <svg class="emblem menu__emblem" role="img" aria-label="SUD SPORT Official Crest"><use href="#emblem" /></svg>
+        <div class="brand__word menu__word">
+          <span>SUD</span>
+          <span class="text-blue">SPORT</span>
+        </div>
+      </div>
+      <button class="menu__close" id="menuCloseBtn" aria-label="Close Menu">
+        <svg class="icon icon--md"><use href="#i-x" /></svg>
+      </button>
+    </div>
+
+    <nav class="menu__list">
+      <a href="#zones" class="menu-item" data-zone-index="0" style="--c: #3B93D4">
+        <div class="menu-item__main"><span class="menu-item__num">/01</span><span class="menu-item__label">PADEL ARENA</span></div>
+        <span class="menu-item__sub">Panoramic Blue Courts</span>
+      </a>
+      <a href="#zones" class="menu-item" data-zone-index="1" style="--c: #008B3A">
+        <div class="menu-item__main"><span class="menu-item__num">/02</span><span class="menu-item__label">MINI FOOTBALL</span></div>
+        <span class="menu-item__sub">5v5 &amp; 6v6 FIFA Turf</span>
+      </a>
+      <a href="#zones" class="menu-item" data-zone-index="2" style="--c: #3B93D4">
+        <div class="menu-item__main"><span class="menu-item__num">/03</span><span class="menu-item__label">GAMING LOUNGE</span></div>
+        <span class="menu-item__sub">PS5 Pro △ ○ ✕ □ Booths</span>
+      </a>
+      <a href="menu.html" class="menu-item" style="--c: #008B3A">
+        <div class="menu-item__main"><span class="menu-item__num">/04</span><span class="menu-item__label">LA CAFÉTÉRIA</span></div>
+        <span class="menu-item__sub">Espresso, Smoothies &amp; Terrace</span>
+      </a>
+      <a href="#rates" class="menu-item" style="--c: #FFFFFF">
+        <div class="menu-item__main"><span class="menu-item__num">/05</span><span class="menu-item__label">RATES &amp; MENU</span></div>
+        <span class="menu-item__sub">Transparent Club Tariffs</span>
+      </a>
+    </nav>
+
+    <div class="menu__foot">
+      <span>SUD LIBAN • OPEN DAILY 08:00 – 02:00</span>
+      <button class="menu__cta">BOOK VIA WHATSAPP CONCIERGE →</button>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
