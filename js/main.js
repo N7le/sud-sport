@@ -269,13 +269,33 @@ function loadImage(set, sizes) {
   });
 }
 
-// Load order: first hero photo, then the other three hero slides,
-// and only then the photo strip further down the page
-async function loadHeroSlidesThenStrip() {
+// Resolves when an <img> already in the page has finished (or failed) loading
+function imageDone(img) {
+  return new Promise((resolve) => {
+    if (img.complete && img.naturalWidth) return resolve();
+    img.addEventListener('load', resolve, { once: true });
+    img.addEventListener('error', resolve, { once: true });
+  });
+}
+
+// Load order, all behind the loading screen:
+// 1. first hero photo, 2. the other hero slides + the four zone photos + fonts.
+// Then the loading screen lifts and the photo strip further down starts loading.
+async function loadFirstSections() {
   const [first, ...rest] = HERO_REEL.map((hero) => imageSet(hero.image, 'hero'));
-  await loadImage(first, HERO_SIZES);
-  await Promise.all(rest.map((set) => loadImage(set, HERO_SIZES)));
-  releaseFilmstripImages();
+  const total = HERO_REEL.length + ZONES.length + 1;
+  let done = 0;
+  const tick = () => setLoaderProgress(++done / total);
+
+  await loadImage(first, HERO_SIZES).then(tick);
+
+  releaseImages($('zonesList'));
+  const zonePhotos = [...$('zonesList').querySelectorAll('img')].map((img) => imageDone(img).then(tick));
+  const heroSlides = rest.map((set) => loadImage(set, HERO_SIZES).then(tick));
+  const fonts = (document.fonts ? document.fonts.ready : Promise.resolve()).then(tick);
+
+  await Promise.all([...zonePhotos, ...heroSlides, fonts]);
+  hideLoader();
 }
 
 function startHeroTimer() {
@@ -297,8 +317,8 @@ function buildZones() {
     const btnText = zone.colorHex === '#008B3A' ? '#FFFFFF' : '#050C1A';
     return `
       <div class="zone" data-zone-index="${idx}" style="--zone-color: ${zone.colorHex}; --zone-border: ${zone.borderColor}">
-        <img src="${img.src}" srcset="${img.srcset}" sizes="${ZONE_SIZES}"
-          alt="${escapeHtml(zone.title)}" class="zone__img" loading="lazy" decoding="async" />
+        <img data-src="${img.src}" data-srcset="${img.srcset}" sizes="${ZONE_SIZES}"
+          alt="${escapeHtml(zone.title)}" class="zone__img" decoding="async" />
         <div class="zone__shade"></div>
         <div class="zone__ribbon"></div>
         ${zone.motif === 'GAMING' ? '<div class="zone__symbols">△ ○ ✕ □</div>' : ''}
@@ -369,9 +389,9 @@ function buildFilmstrip() {
   }).join('');
 }
 
-// Strip photos are held back (data-src) until the hero slides have loaded
-function releaseFilmstripImages() {
-  $('filmstrip').querySelectorAll('img[data-src]').forEach((img) => {
+// Zone and strip photos are held back (data-src) until it is their turn to load
+function releaseImages(root) {
+  root.querySelectorAll('img[data-src]').forEach((img) => {
     img.srcset = img.dataset.srcset;
     img.src = img.dataset.src;
     img.removeAttribute('data-src');
@@ -522,20 +542,78 @@ function bindEvents() {
 }
 
 // =====================================================================
+// LOADING SCREEN
+// =====================================================================
+
+const LOADER_SCENE_MS = 1000; // each scene (padel, football, gaming, cafétéria) lasts 1s
+const LOADER_MAX_MS = 8000; // never block the page longer than this on a slow connection
+
+let loaderHidden = false;
+let loaderSceneTimer = null;
+
+// Scenes switch on a 1s beat counted from page start, so the first (padel)
+// scene, which starts with the CSS, always gets its full second
+function scheduleNextScene() {
+  const nextBeat = (Math.floor(performance.now() / LOADER_SCENE_MS) + 1) * LOADER_SCENE_MS;
+  loaderSceneTimer = setTimeout(() => {
+    showNextScene();
+    scheduleNextScene();
+  }, nextBeat - performance.now());
+}
+
+function showNextScene() {
+  const scenes = [...document.querySelectorAll('.loader .scene')];
+  if (!scenes.length) return;
+  const current = scenes.findIndex((scene) => scene.classList.contains('is-active'));
+  const next = scenes[(current + 1) % scenes.length];
+
+  scenes[current].classList.remove('is-active');
+  next.classList.add('is-active');
+
+  $('loader').style.setProperty('--scene-color', next.dataset.color);
+  $('loaderLabel').textContent = next.dataset.label;
+  replayAnimation($('loaderLabel').parentElement, 'is-switching');
+}
+
+function setLoaderProgress(fraction) {
+  const loader = $('loader');
+  if (loader) loader.style.setProperty('--progress', Math.min(1, fraction));
+}
+
+// Let the scene on screen finish, then fade out
+function hideLoader() {
+  if (loaderHidden) return;
+  loaderHidden = true;
+  clearTimeout(loaderSceneTimer);
+
+  const sceneEnd = Math.ceil(performance.now() / LOADER_SCENE_MS) * LOADER_SCENE_MS;
+
+  setTimeout(() => {
+    const loader = $('loader');
+    if (loader) {
+      setLoaderProgress(1);
+      loader.classList.add('is-done');
+      setTimeout(() => loader.remove(), 500);
+    }
+
+    // Replay the first slide so its entrance plays once it is visible
+    setHero(0);
+    startHeroTimer();
+    releaseImages($('zonesList')); // in case the max wait cut loading short
+    releaseImages($('filmstrip'));
+  }, sceneEnd - performance.now());
+}
+
+// =====================================================================
 // INIT
 // =====================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  // The loading screen fades itself out in CSS; drop it from the page afterwards
-  const loader = $('loader');
-  loader.addEventListener('animationend', (e) => {
-    if (e.target === loader && e.animationName === 'loaderOut') loader.remove();
-  });
+  setTimeout(hideLoader, LOADER_MAX_MS);
+  scheduleNextScene();
 
   buildReelNav();
   setHero(0);
-  startHeroTimer();
-  loadHeroSlidesThenStrip();
 
   buildZones();
   setActiveZone(0);
@@ -548,4 +626,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initCursor();
   bindEvents();
+
+  loadFirstSections();
 });

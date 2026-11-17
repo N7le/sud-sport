@@ -190,8 +190,10 @@ img {
 
 /* =====================================================================
    LOADING SCREEN
-   Pure CSS: the court draws, a padel ball bounces across it, then the
-   whole screen fades out at 1s while the page keeps loading underneath.
+   Four 1s scenes (padel, football, gaming, cafétéria) loop while the hero
+   and zone photos load; the bar shows real progress. main.js cycles the
+   scenes and adds .is-done to fade out. The 10s animation is a fallback
+   in case scripts fail.
 ===================================================================== */
 
 .loader {
@@ -202,14 +204,20 @@ img {
   align-items: center;
   justify-content: center;
   background: var(--navy-900);
-  animation: loaderOut 0.4s var(--ease) 1s forwards;
+  transition: opacity 0.45s var(--ease), visibility 0.45s;
+  animation: loaderOut 0.4s var(--ease) 10s forwards;
+}
+
+.loader.is-done {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .loader__inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
 }
 
 .loader__emblem {
@@ -218,78 +226,32 @@ img {
   animation: loaderPop 0.5s var(--ease) both;
 }
 
-.loader__court {
+.loader__stage {
   position: relative;
   width: min(260px, 70vw);
   aspect-ratio: 2 / 1;
   perspective: 520px;
 }
 
-.loader__floor {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  transform: rotateX(52deg);
+.loader__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-brand);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  color: #fff;
 }
 
-.loader__turf {
-  fill: var(--royal);
-  opacity: 0;
-  animation: loaderFade 0.3s ease 0.05s forwards;
-}
+.loader__label.is-switching { animation: loaderLabel 0.4s var(--ease); }
 
-.loader__line {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 2.5;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: loaderDraw 0.45s var(--ease) 0.1s forwards;
-}
-
-.loader__line--net { stroke-width: 4; }
-
-/* Ball travels left to right over the net, bounces, then settles */
-.loader__flight {
-  position: absolute;
-  top: 50%;
-  left: 12%;
-  animation: loaderBallX 0.85s linear 0.1s both;
-}
-
-.loader__ball {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  margin: -7px 0 0 -7px;
+.loader__dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #f4ff8a, #d4ec1e 55%, #9fb80a);
-  box-shadow: 0 0 12px rgba(212, 236, 30, 0.6);
-  overflow: hidden;
-  animation: loaderBallY 0.85s 0.1s both;
-}
-
-/* Seam */
-.loader__ball::after {
-  content: '';
-  position: absolute;
-  top: 1px;
-  bottom: 1px;
-  left: 6px;
-  right: -6px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
-}
-
-.loader__shadow {
-  position: absolute;
-  width: 16px;
-  height: 5px;
-  margin: -2px 0 0 -8px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.45);
-  filter: blur(1px);
-  animation: loaderShadow 0.85s 0.1s both;
+  background: var(--scene-color, var(--blue));
+  transition: background-color 0.3s;
 }
 
 .loader__bar {
@@ -304,17 +266,165 @@ img {
   display: block;
   height: 100%;
   background: linear-gradient(90deg, var(--blue), var(--green));
-  transform: scaleX(0);
+  transform: scaleX(var(--progress, 0.06));
   transform-origin: left;
-  animation: loaderBar 0.95s linear forwards;
+  transition: transform 0.35s var(--ease);
 }
+
+/* --- Scenes: stacked, one visible at a time; animations run while active --- */
+
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.scene.is-active { opacity: 1; }
+
+/* Courts and pitches lie flat in 3D; gaming and café scenes face the viewer */
+.scene__floor {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotateX(52deg);
+}
+
+.scene__flat {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.scene__turf { opacity: 0; }
+.scene--padel .scene__turf { fill: var(--royal); }
+.scene--football .scene__turf { fill: var(--green); }
+
+.scene__line {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.5;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.scene__line--net { stroke-width: 4; }
+
+.scene.is-active .scene__turf { animation: loaderFade 0.25s ease forwards; }
+.scene.is-active .scene__line { animation: loaderDraw 0.45s var(--ease) 0.05s forwards; }
+
+/* Ball path across the court; the ball and its shadow move with it */
+.scene__flight {
+  position: absolute;
+  top: 50%;
+  left: 12%;
+}
+
+.scene__shadow {
+  position: absolute;
+  width: 16px;
+  height: 5px;
+  margin: -2px 0 0 -8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  filter: blur(1px);
+}
+
+.padel-ball {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f4ff8a, #d4ec1e 55%, #9fb80a);
+  box-shadow: 0 0 12px rgba(212, 236, 30, 0.6);
+  overflow: hidden;
+}
+
+/* Seam */
+.padel-ball::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 6px;
+  right: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+}
+
+.football {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  overflow: visible;
+}
+
+.scene--padel.is-active .scene__flight { animation: loaderAcross 0.9s linear both; }
+.scene--padel.is-active .padel-ball { animation: loaderPadelBounce 0.9s both; }
+.scene--padel.is-active .scene__shadow { animation: loaderPadelShadow 0.9s both; }
+
+.scene--football.is-active .scene__flight { animation: loaderAcross 0.9s cubic-bezier(0.3, 0.1, 0.4, 1) both; }
+.scene--football.is-active .football { animation: loaderRoll 0.9s both; }
+.scene--football.is-active .scene__shadow { animation: loaderRollShadow 0.9s both; }
+
+/* Gaming: controller pad with the four symbols popping in */
+.pad {
+  fill: var(--navy-700);
+  stroke: rgba(59, 147, 212, 0.5);
+  stroke-width: 2;
+}
+
+.sym {
+  fill: none;
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+}
+
+.sym--1, .sym--3 { stroke: var(--blue); }
+.sym--2, .sym--4 { stroke: #2fbf6b; }
+
+.scene--gaming.is-active .sym { animation: loaderPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.scene--gaming.is-active .sym--2 { animation-delay: 0.12s; }
+.scene--gaming.is-active .sym--3 { animation-delay: 0.24s; }
+.scene--gaming.is-active .sym--4 { animation-delay: 0.36s; }
+.scene--gaming.is-active .pad { animation: loaderGlow 0.9s ease 0.45s; }
+
+/* Cafétéria: iced latte fills up, ice bobs, straw drops in */
+.glass {
+  fill: rgba(255, 255, 255, 0.06);
+  stroke: #fff;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.latte { transform: translateY(88px); }
+.ice { fill: rgba(255, 255, 255, 0.55); }
+.straw { fill: var(--green); transform: translateY(-40px); opacity: 0; }
+
+.scene--cafe.is-active .latte { animation: loaderFill 0.75s var(--ease) forwards; }
+.scene--cafe.is-active .ice { animation: loaderBob 0.9s ease-in-out both; }
+.scene--cafe.is-active .ice--2 { animation-delay: 0.1s; }
+.scene--cafe.is-active .straw { animation: loaderStraw 0.5s var(--ease) 0.3s forwards; }
+
+/* --- Keyframes --- */
 
 @keyframes loaderOut {
   to { opacity: 0; visibility: hidden; }
 }
 
 @keyframes loaderPop {
-  from { opacity: 0; transform: scale(0.7); }
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes loaderLabel {
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }
 }
 
@@ -326,17 +436,13 @@ img {
   to { stroke-dashoffset: 0; }
 }
 
-@keyframes loaderBar {
-  to { transform: scaleX(1); }
-}
-
-@keyframes loaderBallX {
+@keyframes loaderAcross {
   from { left: 12%; }
-  to { left: 84%; }
+  to { left: 86%; }
 }
 
 /* Rise (ease out) and fall (ease in) for a real bounce */
-@keyframes loaderBallY {
+@keyframes loaderPadelBounce {
   0% { transform: translateY(0) rotate(0deg); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
   35% { transform: translateY(-46px) rotate(220deg); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
   70% { transform: translateY(0) rotate(430deg); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
@@ -344,7 +450,7 @@ img {
   100% { transform: translateY(0) rotate(560deg); }
 }
 
-@keyframes loaderShadow {
+@keyframes loaderPadelShadow {
   0% { transform: scale(1); opacity: 0.6; animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
   35% { transform: scale(0.45); opacity: 0.2; animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
   70% { transform: scale(1); opacity: 0.6; animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
@@ -352,11 +458,44 @@ img {
   100% { transform: scale(1); opacity: 0.6; }
 }
 
+/* Football: rolls along the turf with one small hop */
+@keyframes loaderRoll {
+  0% { transform: translateY(0) rotate(0deg); }
+  40% { transform: translateY(0) rotate(300deg); animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1); }
+  55% { transform: translateY(-16px) rotate(420deg); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4); }
+  70% { transform: translateY(0) rotate(520deg); }
+  100% { transform: translateY(0) rotate(720deg); }
+}
+
+@keyframes loaderRollShadow {
+  0%, 40%, 70%, 100% { transform: scale(1); opacity: 0.6; }
+  55% { transform: scale(0.6); opacity: 0.3; }
+}
+
+@keyframes loaderGlow {
+  50% { stroke: var(--blue); filter: drop-shadow(0 0 8px rgba(59, 147, 212, 0.7)); }
+}
+
+@keyframes loaderFill {
+  to { transform: translateY(0); }
+}
+
+@keyframes loaderBob {
+  0% { transform: translateY(60px); }
+  70% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes loaderStraw {
+  to { transform: translateY(0); opacity: 1; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .loader__flight,
-  .loader__ball,
-  .loader__shadow { animation: none; }
-  .loader__flight { left: 50%; }
+  .scene.is-active .scene__flight,
+  .scene.is-active .padel-ball,
+  .scene.is-active .football,
+  .scene.is-active .scene__shadow { animation: none; }
+  .scene__flight { left: 50%; }
 }
 
 /* =====================================================================
@@ -770,18 +909,6 @@ img {
 }
 .reel-btn.is-active .reel-btn__fill { width: 100%; }
 
-.tagline {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-brand);
-  font-weight: 700;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-}
-
 @media (min-width: 640px) {
   .hero__watermark { display: block; right: 56px; top: 128px; }
   .hero__inner { padding: 0 32px 56px; }
@@ -793,7 +920,6 @@ img {
   .reel-btn__label { flex-direction: row; align-items: center; gap: 6px; }
   .reel-btn__name { font-size: 11px; letter-spacing: 0.14em; }
   .reel-btn__track { width: 48px; }
-  .tagline { display: flex; }
 }
 
 @media (min-width: 1024px) {
@@ -1153,7 +1279,8 @@ img {
 .film:hover .film__img { transform: scale(1.05); }
 
 /* Hide the empty image until its photo is released */
-.film__img:not([src]) { visibility: hidden; }
+.film__img:not([src]),
+.zone__img:not([src]) { visibility: hidden; }
 
 .film__overlay {
   position: absolute;

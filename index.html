@@ -20,9 +20,9 @@
     imagesizes="100vw"
     fetchpriority="high"
   />
-  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/style.css?v=5" />
   <!-- White theme; js/theme.js switches it on (light) and off (dark) -->
-  <link rel="stylesheet" href="css/theme-light.css?v=3" id="themeLight" />
+  <link rel="stylesheet" href="css/theme-light.css?v=4" id="themeLight" />
   <script src="js/theme.js?v=2"></script>
 </head>
 <body>
@@ -86,28 +86,91 @@
 
   <!-- Subtle desktop cursor follower -->
   <!-- ===================================================================
-       LOADING SCREEN (pure CSS, fades out after 1s; the page loads underneath)
+       LOADING SCREEN
+       Four 1s scenes loop (padel, football, gaming, cafétéria) until the
+       hero and zone photos have loaded; main.js drives the cycle and fade.
   =================================================================== -->
   <div class="loader" id="loader" aria-hidden="true">
     <div class="loader__inner">
       <svg class="emblem loader__emblem"><use href="#emblem" /></svg>
 
-      <div class="loader__court">
-        <svg class="loader__floor" viewBox="0 0 240 120">
-          <rect class="loader__turf" x="4" y="4" width="232" height="112" rx="6" />
-          <rect class="loader__line" x="4" y="4" width="232" height="112" rx="6" pathLength="100" />
-          <line class="loader__line loader__line--net" x1="120" y1="4" x2="120" y2="116" pathLength="100" />
-          <line class="loader__line" x1="37" y1="4" x2="37" y2="116" pathLength="100" />
-          <line class="loader__line" x1="203" y1="4" x2="203" y2="116" pathLength="100" />
-          <line class="loader__line" x1="37" y1="60" x2="203" y2="60" pathLength="100" />
-        </svg>
+      <div class="loader__stage">
+        <!-- 01 PADEL: blue court draws in, ball rallies over the net -->
+        <div class="scene scene--padel is-active" data-label="PADEL" data-color="#3B93D4">
+          <svg class="scene__floor" viewBox="0 0 240 120">
+            <rect class="scene__turf" x="4" y="4" width="232" height="112" rx="6" />
+            <rect class="scene__line" x="4" y="4" width="232" height="112" rx="6" pathLength="100" />
+            <line class="scene__line scene__line--net" x1="120" y1="4" x2="120" y2="116" pathLength="100" />
+            <line class="scene__line" x1="37" y1="4" x2="37" y2="116" pathLength="100" />
+            <line class="scene__line" x1="203" y1="4" x2="203" y2="116" pathLength="100" />
+            <line class="scene__line" x1="37" y1="60" x2="203" y2="60" pathLength="100" />
+          </svg>
+          <div class="scene__flight">
+            <span class="scene__shadow"></span>
+            <span class="padel-ball"></span>
+          </div>
+        </div>
 
-        <div class="loader__flight">
-          <span class="loader__shadow"></span>
-          <span class="loader__ball"></span>
+        <!-- 02 MINI FOOTBALL: green pitch draws in, ball rolls and hops -->
+        <div class="scene scene--football" data-label="MINI FOOTBALL" data-color="#008B3A">
+          <svg class="scene__floor" viewBox="0 0 240 120">
+            <rect class="scene__turf" x="4" y="4" width="232" height="112" rx="6" />
+            <rect class="scene__line" x="4" y="4" width="232" height="112" rx="6" pathLength="100" />
+            <line class="scene__line" x1="120" y1="4" x2="120" y2="116" pathLength="100" />
+            <circle class="scene__line" cx="120" cy="60" r="18" pathLength="100" />
+            <rect class="scene__line" x="4" y="32" width="30" height="56" pathLength="100" />
+            <rect class="scene__line" x="206" y="32" width="30" height="56" pathLength="100" />
+          </svg>
+          <div class="scene__flight">
+            <span class="scene__shadow"></span>
+            <svg class="football" viewBox="0 0 20 20">
+              <circle cx="10" cy="10" r="9.2" fill="#fff" stroke="#0b1a33" stroke-width="0.8" />
+              <polygon points="10,6.4 13.4,8.9 12.1,12.9 7.9,12.9 6.6,8.9" fill="#0b1a33" />
+              <g stroke="#0b1a33" stroke-width="0.9" stroke-linecap="round">
+                <line x1="10" y1="6.4" x2="10" y2="1.2" />
+                <line x1="13.4" y1="8.9" x2="18.2" y2="7.4" />
+                <line x1="12.1" y1="12.9" x2="15.2" y2="17" />
+                <line x1="7.9" y1="12.9" x2="4.8" y2="17" />
+                <line x1="6.6" y1="8.9" x2="1.8" y2="7.4" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 03 GAMING LOUNGE: the four action symbols pop in one by one -->
+        <div class="scene scene--gaming" data-label="GAMING LOUNGE" data-color="#3B93D4">
+          <svg class="scene__flat" viewBox="0 0 240 120">
+            <rect class="pad" x="62" y="4" width="116" height="112" rx="22" />
+            <g class="sym sym--1"><polygon points="120,16 108,37 132,37" /></g>
+            <g class="sym sym--2"><circle cx="152" cy="60" r="11" /></g>
+            <g class="sym sym--3"><line x1="111" y1="74" x2="129" y2="92" /><line x1="129" y1="74" x2="111" y2="92" /></g>
+            <g class="sym sym--4"><rect x="78" y="50" width="20" height="20" rx="2" /></g>
+          </svg>
+        </div>
+
+        <!-- 04 CAFÉTÉRIA: iced latte fills up, straw drops in -->
+        <div class="scene scene--cafe" data-label="CAFÉTÉRIA" data-color="#008B3A">
+          <svg class="scene__flat" viewBox="0 0 240 120">
+            <defs>
+              <clipPath id="loaderGlass"><path d="M98 22 L142 22 L137 108 Q120 112 103 108 Z" /></clipPath>
+              <linearGradient id="loaderLatte" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#e7cfa9" />
+                <stop offset="0.45" stop-color="#b9875a" />
+                <stop offset="1" stop-color="#5a3519" />
+              </linearGradient>
+            </defs>
+            <rect class="straw" x="126" y="2" width="6" height="78" rx="3" />
+            <g clip-path="url(#loaderGlass)">
+              <rect class="latte" x="94" y="22" width="52" height="92" fill="url(#loaderLatte)" />
+              <rect class="ice ice--1" x="106" y="40" width="12" height="12" rx="2" />
+              <rect class="ice ice--2" x="121" y="48" width="11" height="11" rx="2" />
+            </g>
+            <path class="glass" d="M98 22 L142 22 L137 108 Q120 112 103 108 Z" />
+          </svg>
         </div>
       </div>
 
+      <p class="loader__label"><span class="loader__dot"></span><span id="loaderLabel">PADEL</span></p>
       <div class="loader__bar"><span></span></div>
     </div>
   </div>
@@ -177,16 +240,6 @@
 
         <div class="hero__bar">
           <div class="reel-nav" id="reelNav"></div>
-
-          <div class="tagline">
-            <span>PADEL</span>
-            <span class="text-blue">•</span>
-            <span>MINI FOOTBALL</span>
-            <span class="text-green">•</span>
-            <span>GAMING LOUNGE</span>
-            <span class="text-blue">•</span>
-            <span>CAFÉTÉRIA</span>
-          </div>
         </div>
       </div>
     </section>
@@ -354,6 +407,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=4"></script>
+  <script src="js/main.js?v=5"></script>
 </body>
 </html>
